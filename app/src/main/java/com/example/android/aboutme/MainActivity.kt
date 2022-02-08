@@ -22,6 +22,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import com.android.example.aboutme.databinding.ActivityMainBinding
+import com.example.android.aboutme.MyName
 
 /**
  * Main Activity of the AboutMe app. This app demonstrates:
@@ -30,21 +33,21 @@ import android.widget.TextView
  */
 class MainActivity : AppCompatActivity() {
 
-    lateinit var editText: EditText
-    lateinit var btnDone : Button
-    lateinit var nameText : TextView
+    private lateinit var binding: ActivityMainBinding
+    private val myName:MyName= MyName("Yoga Wahyu")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        editText=findViewById(R.id.edt_text_name)
-        btnDone=findViewById(R.id.btn_done)
-        nameText=findViewById(R.id.text_name)
-        btnDone.setOnClickListener { addNickname() }
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding.myName=myName
+        binding.btnDone.setOnClickListener { addNickname() }
+
     }
     private fun addNickname(){
-        nameText.visibility=View.VISIBLE
-        editText.visibility=View.GONE
-        btnDone.visibility=View.GONE
-        nameText.text=editText.text
+        binding.apply {
+            binding.textName.visibility = View.VISIBLE
+            binding.edtTextName.visibility = View.GONE
+            binding.btnDone.visibility = View.GONE
+            binding.textName.text = edtTextName.text.toString()
+        }
     }
 }
